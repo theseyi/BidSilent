@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>BidSilent!</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
+    <style>
+body {
+    margin: auto; /* center in viewport */
+    width: 960px;
+}
+
+#hd, #ft {
+    height: 40px;
+    margin-top: 40px;
+}
+
+.yui3-g .content {
+    border: 2px solid #000;
+    margin-right:10px; /* "column" gutters */
+    padding: 1em;
+}
+
+.yui3-overlay-content {
+    border: 2px solid black;
+    background-color: white;
+}
+
+#backgroundFilter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: #333333;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    display: none;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+    </style>
+</head>
+<body class="yui3-skin-sam">
+    <div id="backgroundFilter"></div>
+    <div id="hd">
+        <h1 align="center">BIDSILENT - Shhhhh!</h1>
+    </div>
+
+    <div class="yui3-g">
+        <div id="nav" class="yui3-u-1-5 yui3-menu yui3-menu-vertical">
+            <div class="content yui3-menu-content">
+                <ul>
+                    <li class="yui3-menuitem">
+                        <a class="yui3-menuitem-content" id="register">Register</a>
+                    </li>
+                    <li class="yui3-menuitem">
+                        <a class="yui3-menuitem-content" id="login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="yui3-u-4-5">
+            <div id="main" class="content">
+                Welcome to BidSilent - highest bid wins!
+            </div>
+        </div>
+    </div>
+
+    <div id="ft">
+        <h1 align="center">Code at https://github.com/zzo/BidSilent</h1>
+    </div>
+
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script src="http://bidsilent.net/socket.io/socket.io.js"></script>
+<script src="http://bidsilent.net/yui3.js"></script>
+<script src="http://bidsilent.net/loadModules.js"></script>
+<script>
+    YUI().use('node', 'EventHub', function(Y) {
+        var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
+        hub.on('eventHubReady', function() {
+            hub.on('modulesLoaded', function() { console.log('all modules loaded!'); });
+            Y.use('loadModules');
+        });
+    });
+</script>
+</body>
+</html>
+
