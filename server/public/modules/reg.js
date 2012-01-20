@@ -21,12 +21,27 @@ YUI().add('register', function(Y) {
     Y.one('#reg_submit').on('click',
         function() {
             overlayClose();
-            Y.Global.Hub.fire('registerUser',
-                {
-                    username: Y.one('#username').get('value')
-                    , password: Y.one('#password').get('value')
+            Y.Global.Hub.fire('db:find', 'user', {
+                    id: Y.one('#username').get('value')
+                }
+                , function(resp) {
+                    if (resp.id) {
+                        Y.log('user: ' + resp.id + ' already exists!');
+                    } else {
+                        Y.Global.Hub.fire('db:row', 'user',
+                            { 
+                                id: Y.one('#username').get('value')
+                                , password: Y.one('#password').get('value')
+                            }
+                            , function(resp) {
+                                Y.log('successfully created user: ');
+                                Y.log(resp);
+                            }
+                        );
+                    }
                 }
             );
+
         }
     );
 

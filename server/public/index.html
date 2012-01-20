@@ -78,10 +78,19 @@ body {
 <script src="http://bidsilent.net/yui3.js"></script>
 <script src="http://bidsilent.net/loadModules.js"></script>
 <script>
-    YUI().use('node', 'EventHub', function(Y) {
+    YUI().use('node', 'EventHub', 'cookie', function(Y) {
         var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
+        Y.log('session: ' + Y.Cookie.get('session'));
         hub.on('eventHubReady', function() {
-            hub.on('modulesLoaded', function() { console.log('all modules loaded!'); });
+            hub.on('modulesLoaded', function() {
+                Y.Global.Hub.session = Y.Cookie.get('session');
+                if (!Y.Global.Hub.session) {
+                    hub.fire('session:start', function(data) {
+                        Y.Cookie.set("session", data.id, { expires: new Date("August 11, 2022") });
+                        Y.Global.Hub.session = data.id;
+                    });
+                }
+            });
             Y.use('loadModules');
         });
     });

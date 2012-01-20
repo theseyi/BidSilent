@@ -5,20 +5,22 @@ YUI().add('loadModules', function(Y) {
         , mods = {
             nav: {
                 requires: [ 'node-menunav' ]
-                , fullpath: '/nav.js'
+                , fullpath: '/modules/nav.js'
             }
             , login: {
                 requires: [ 'node', 'overlay' ]
-                , fullpath: '/login.js'
+                , fullpath: '/modules/login.js'
             }
             , register: {
                 requires: [ 'node', 'overlay' ]
-                , fullpath: '/reg.js'
+                , fullpath: '/modules/reg.js'
             }
 
 
 
         }
 
+Y.log('loading');
+Y.log(mods);
     Y.use.apply(YUI({ modules: mods, loadErrorFn: err }), modules);
 });
