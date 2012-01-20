@@ -2,8 +2,6 @@ var client = require('redis').createClient()
     , uuid = require('node-uuid')
     ;
 
-    console.log('REDIS: ' + client);
-
 module.exports = {
     setClient: function(cl) { client = cl; }
     , create: function(hub) {

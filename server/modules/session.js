@@ -15,6 +15,13 @@ module.exports = {
             });
         });
 
+        hub.on('session:get', function(session, callback) {
+            hub.emit('db:find', 'session', { id: session }, function(result) {
+		callback(result);
+            });
+        });
+
+
         hub.on('session:add', function(obj, callback) { 
             hub.emit('db:row', 'session', obj, function(result) {
                 // this worked right??

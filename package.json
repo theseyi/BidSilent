@@ -1,0 +1,30 @@
+{
+  "name": "BidSilent",
+  "description": "Playground for EventHub WebApp development",
+  "keywords": [
+    "event",
+    "EventHub"
+  ],
+  "version": "1.0.0",
+  "author": "Mark Ethan Trostler <mark@zzo.com>",
+  "preferGlobal": true,
+  "scripts": {
+    "start": "node ./server/server.js"
+  },
+  "engines": {
+    "node": ">=0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zzo/BidSilent.git"
+  },
+  "homepage": "https://github.com/zzo/BidSilent",
+  "dependencies": {
+    "EventHub": "",
+    "redis": "",
+    "socket.io": "",
+    "node-uuid": "",
+    "connect": "~1.7"
+  },
+  "devDependencies": {}
+}

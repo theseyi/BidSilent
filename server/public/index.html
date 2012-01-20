@@ -89,7 +89,12 @@ body {
                         Y.Cookie.set("session", data.id, { expires: new Date("August 11, 2022") });
                         Y.Global.Hub.session = data.id;
                     });
-                }
+                } else {
+                    hub.fire('session:get', Y.Global.Hub.session, function(data) {
+		        Y.log('already have a session:');
+			console.log(data);
+		    });
+		}
             });
             Y.use('loadModules');
         });
