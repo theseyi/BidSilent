@@ -16,7 +16,7 @@ var connect = require('connect')
 
 // get ref to hub & then load server-side modules
 eventHub.on('eventHubReady', function() {
-    var modules = fs.readdirSync('server/modules');
+    var modules = fs.readdirSync(__dirname + '/modules');
     modules.forEach(function(fname) {
         if (fname.match('.js$')) {
             require(path.join(__dirname, 'modules', fname)).create(eventHub);

@@ -1,9 +1,9 @@
 YUI().add('register', function(Y) {
     var overlay = new Y.Overlay({
         width:"400px"
-        , height:"100px"
-        , headerContent: "<center>Register</center>"
-        , bodyContent: 'Username: <input type="text" id="username" /><br />Password: <input type="password" id="password" /><br /><button id="reg_submit">Submit</button>&nbsp;<button id="reg_close">Close</button>'
+        , height:"150px"
+        , headerContent: "Register"
+        , bodyContent: '<label for="username">Username</label><input type="text" id="username" class="input" /><br /><label for="password">Password</label><input type="password" id="password" class="input" /><br /><label>&nbsp;</label><button class="button" style="margin-right: 20px" id="reg_submit">Submit</button>&nbsp;<button id="reg_close" class="button">Close</button>'
         , zIndex:2
         , centered: true
     })
@@ -20,28 +20,27 @@ YUI().add('register', function(Y) {
     Y.one('#reg_close').on('click', function() { overlayClose(); });
     Y.one('#reg_submit').on('click',
         function() {
+            var user = Y.one('#username').get('value')
+                , pass = Y.one('#password').get('value')
+                ;
+
             overlayClose();
-            Y.Global.Hub.fire('db:find', 'user', {
-                    id: Y.one('#username').get('value')
+
+            if (!user || !password) { return; }
+
+            Y.Global.Hub.fire('user:register', {
+                    id: user
+                    , password: pass
                 }
-                , function(resp) {
-                    if (resp.id) {
-                        Y.log('user: ' + resp.id + ' already exists!');
+                , function(error) {
+                    if (error) {
+                        Y.log('error registering user: ' + user);
+                        Y.log(error);
                     } else {
-                        Y.Global.Hub.fire('db:row', 'user',
-                            { 
-                                id: Y.one('#username').get('value')
-                                , password: Y.one('#password').get('value')
-                            }
-                            , function(resp) {
-                                Y.log('successfully created user: ');
-                                Y.log(resp);
-                            }
-                        );
+                        Y.log('successfully created user: ' + user);
                     }
                 }
             );
-
         }
     );
 

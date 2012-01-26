@@ -1,0 +1,99 @@
+/* For supporting browsers, the overlay is rendered semi-transparent with
+ * fancy rounded corners */
+.yui3-overlay {
+    background: rgba(128,128,128,0.3);
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding: 7px;
+    cursor: move;
+}
+ 
+.yui3-overlay-content {
+    background-color: lightgreen;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding: 1px;
+} 
+ 
+.yui3-overlay form {
+    background: #f2fbff url(gradient-promo.png) repeat-x scroll 0 0;
+    border: 2px solid #fff;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+ 
+.yui3-overlay fieldset {
+    border: 1px solid #bcd;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin: 0;
+    padding: 20px;
+}
+ 
+.yui3-overlay h3 {
+    border-bottom: 2px solid #fff;
+    color: #479;
+    background: transparent;
+    margin: 0;
+    font-size: 175%;
+}
+ 
+.yui3-overlay label {
+    display: block;
+    font-family: 'ariel','sans-serif';
+    color: #003;
+    margin-right: 10px;
+}
+ 
+.yui3-overlay p {
+    margin: 2em 0 0;
+}
+
+.yui3-overlay-content .yui3-widget-hd {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-family: "arial", "sans-serif";
+    text-transform: uppercase;
+}
+ 
+/* override the move cursor for the Slider */
+.yui3-overlay .yui3-slider:hover {
+    cursor: default;
+}
+
+/* FORM ELEMENTS */
+.input {
+    border: 1px solid #006;
+    background: #ffc;
+}
+.input:hover {
+    border: 1px solid #f00;
+    background: #ff6;
+}
+.button {
+    border: none;
+    background: #9cf;
+    padding: 2px 8px;
+}
+.button:hover {
+    border: 1px solid #006;
+    padding: 2px 8px;
+    text-transform: uppercase;
+}
+
+label {
+    display: block;
+    width: 150px;
+    float: left;
+    margin: 2px 4px 6px 4px;
+    text-align: right;
+}
+br { clear: left; }
