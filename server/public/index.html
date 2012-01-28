@@ -5,6 +5,11 @@
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
     <link rel="stylesheet" type="text/css" href="/overlay.css">
     <link rel="stylesheet" type="text/css" href="/bs.css">
+    <link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/gallery-2011.03.23-22-20/build/gallery-carousel/assets/skins/sam/gallery-carousel.css">
+    <style>
+            .yui3-carousel-content li { width: 300; }
+    </style>
+
 </head>
 <body class="yui3-skin-sam">
     <div id="backgroundFilter"></div>
@@ -16,21 +21,27 @@
         <div id="nav" class="yui3-u-1-5 yui3-menu yui3-menu-vertical">
             <div class="content yui3-menu-content">
                 <ul>
-                    <li id="nav_register" class="yui3-menuitem">
-                        <a class="yui3-menuitem-content" id="register">Register</a>
-                    </li>
-                    <li id="nav_login" class="yui3-menuitem">
-                        <a class="yui3-menuitem-content" id="login">Login</a>
-                    </li>
-                    <li id="nav_logout" style="display: none" class="yui3-menuitem">
-                        <a class="yui3-menuitem-content" id="logout">Logout</a>
-                    </li>
+                    <div id="loggedOut" style="display: none">
+                        <li id="nav_register" class="yui3-menuitem">
+                            <a class="yui3-menuitem-content" id="register">Register</a>
+                        </li>
+                        <li id="nav_login" class="yui3-menuitem">
+                            <a class="yui3-menuitem-content" id="login">Login</a>
+                        </li>
+                    </div>
+                    <div id="loggedIn" style="display: none">
+                        <li id="nav_logout" class="yui3-menuitem">
+                            <a class="yui3-menuitem-content" id="logout">Logout</a>
+                        </li>
+                    </div>
                 </ul>
             </div>
         </div>
         <div class="yui3-u-3-5">
             <div id="main" class="content">
                 Welcome to BidSilent - highest bid wins!
+                <div id="current_auction">
+                </div>
             </div>
         </div>
         <div id="ads" class="yui3-u-1-5">
@@ -43,15 +54,81 @@
         <h1 align="center">Code at <a href="https://github.com/zzo/BidSilent">https://github.com/zzo/BidSilent</a></h1>
     </div>
 
+<div id="loginPanel" style="display: none">
+    <div class="yui3-widget-bd">
+        <form>
+            <fieldset>
+                <p>
+                    <label for="l_username">Username</label><br/>
+                    <input type="text" id="l_username" placeholder="">
+                </p>
+                <p>
+                    <label for="l_password">Password</label><br/>
+                    <input type="password" id="l_password" value="" placeholder="">
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div id="regPanel" style="display: none">
+    <div class="yui3-widget-bd">
+        <form>
+            <fieldset>
+                <p>
+                    <label for="r_username">Username</label><br/>
+                    <input type="text" id="r_username" placeholder="">
+                </p>
+                <p>
+                    <label for="r_password">Password</label><br/>
+                    <input type="password" id="r_password" value="" placeholder="">
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div id="errorPanel" style="display: none">
+    <div class="yui3-widget-hd">
+        Error
+    </div>
+</div>
+
 <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
 <script src="http://bidsilent.net:5883/socket.io/socket.io.js"></script>
 <script src="http://bidsilent.net:5883/yui3.js"></script>
 <script src="http://bidsilent.net/loadModules.js"></script>
 <script>
-    YUI().use('node', 'EventHub', 'cookie', function(Y) {
+    YUI({
+        gallery: 'gallery-2011.05.18-19-11'
+    }).use('node', 'EventHub', 'cookie', "gallery-carousel", "substitute", function(Y) {
         var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
         hub.on('eventHubReady', function() {
             hub.on('modulesLoaded', function() {
+                hub.fire('session:get', function(err, session) {
+                    hub.fire('ui:userLoggedIn', { user: session.user });
+                });
+                /*
+                hub.fire('product:get', function(error, prod) {
+                    if (error) {
+                        hub.fire('ui:error', error);
+                    } else {
+                        var html = '';
+                        prod.forEach(function(item) {
+                            html += '<li>' + item.desc + '</li>';
+                        });
+                        Y.one('#c_items').set('innerHTML', html);
+                            var carousel = new Y.Carousel({
+                                boundingBox: "#carousel",
+                                contentBox: "#carousel > ol"
+                            });
+                            carousel.render();
+
+//                        Y.one('#product').set('innerHTML', prod.desc);
+//                        console.log(prod);
+                    }
+                });
+                */
             });
             Y.use('loadModules');
         });

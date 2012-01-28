@@ -11,7 +11,7 @@ var connect = require('connect')
     , port = 80
     , fs = require('fs')
     , path = require('path')
-    , eventHub = require('EventHub/clients/server/eventClient.js').getClientHub('http://localhost:5883')
+    , eventHub = require('EventHub/clients/server/eventClient.js').getClientHub('http://localhost:5883?token=ehrox')
     ;
 
 // get ref to hub & then load server-side modules

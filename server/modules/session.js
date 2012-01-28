@@ -14,7 +14,7 @@ module.exports = {
             }
         });
 
-        hub.on('session:get', function(session, callback) {
+        hub.on('session:get', function(obj, callback) {
             var session = obj['eventHub:session'];
             if (session) {
                 redis.hgetall('session:' + session, callback);
@@ -26,13 +26,11 @@ module.exports = {
         hub.on('session:add', function(obj, callback) { 
             var session = obj['eventHub:session'];
             if (session) {
-                redis.hmset('session:' + session, obj, function(err, res) {
-                    callback(err, res);
-                });
+                redis.hmset('session:' + session, obj, callback);
             } else {
                 callback('No session');
             }
-        });
+        }, {type: 'unicast'});
 
         hub.on('session:del', function(obj, callback) { 
             var session = obj['eventHub:session'];
@@ -44,7 +42,7 @@ module.exports = {
             if (callback) {
                 callback();
             }
-        });
+        }, {type: 'unicast'});
 
     }
 };

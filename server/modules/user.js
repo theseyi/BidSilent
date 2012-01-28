@@ -4,10 +4,10 @@ var redis = require('redis').createClient()
 module.exports = {
     create: function(hub) {
 
-        function getUser(obj, cb) {
+        function getUser(obj, callback) {
             if (obj.id && obj.password) {
                 redis.hgetall('user:' + obj.id, function(err, response) {
-                    cb(err, response);
+                    callback(err, response);
                 });
             } else {
                 callback("Missing user id or password");
@@ -26,7 +26,7 @@ module.exports = {
                     }
                 }
             });
-        });
+        }, {type: 'unicast'});
 
         hub.on('user:login', function(obj, callback) { 
             getUser(obj, function(err, user) {
@@ -38,11 +38,22 @@ module.exports = {
                     callback('Bad password');
                 }
             });
-        });
+        }, {type: 'unicast'});
 
         hub.on('user:logout', function(obj, callback) { 
             hub.emit('session:del', { 'eventHub:session': obj['eventHub:session'], key: 'user' }, callback);
-        });
+        }, {type: 'unicast'});
+
+        hub.on('user:profile', function(obj, callback) { 
+            hub.emit('session:get', { 'eventHub:session': obj['eventHub:session'] }, function(err, session) {
+                if (err) {
+                    callback(err);
+                } else {
+                    redis.hmset('user:' + session.user, obj, callback);
+                }
+            });
+        }, {type: 'unicast'});
+
 
     }
 };

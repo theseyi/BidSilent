@@ -1,60 +1,78 @@
 YUI().add('login', function(Y) {
-    var overlay = new Y.Overlay({
-        width:"400px"
-        , height:"150px"
-        , headerContent: "Login"
-        , bodyContent: '<label for="username">Username</label><input type="text" id="u_login" class="input" /><br /><label for="password">Password</label><input type="password" id="u_password" class="input" /><br /><label>&nbsp;</label><button class="button" style="margin-right: 20px" id="login_submit">Submit</button>&nbsp;<button id="login_close" class="button">Close</button>'
-        , zIndex:2
-        , centered: true
-    })
-    , bg = Y.one('#backgroundFilter')
-    , overlayClose = function() {
-          bg.setStyle('display', 'none');
-          overlay.hide();
-      }
-    ;
 
-    overlay.render();
-    overlay.hide();
+    Y.one('#loginPanel').setStyle('display', 'block');
+    var panel = new Y.Panel({
+        srcNode      : '#loginPanel',
+        headerContent: 'Login',
+        width        : 400,
+        zIndex       : 5,
+        centered     : true,
+        modal        : true,
+        visible      : false,
+        render       : true,
+        plugins      : [Y.Plugin.Drag]
+    });
 
-    Y.one('#login_close').on('click', function() { overlayClose(); });
-    Y.one('#login_submit').on('click',
-        function() {
-            var user = Y.one('#u_login').get('value');
-
-            overlayClose();
-            Y.Global.Hub.fire('user:login', {
-                    id: user
-                    , password: Y.one('#u_password').get('value')
-                }
-                , function(err) {
-                    if (err) {
-                        Y.log('user: ' + user + ' does not exist or bad password!');
-                    } else {
-                        Y.log('user: ' + user + ' now logged in!');
-                        Y.one('#nav_logout').setStyle('display', 'block');
-                        Y.one('#nav_login').setStyle('display', 'none');
-                        Y.one('#nav_register').setStyle('display', 'none');
-                        // REPLACE nav with 'logout'
-                    }
-                }
-            );
+    panel.addButton({
+        value  : 'Login',
+        section: Y.WidgetStdMod.FOOTER,
+        action : function (e) {
+            e.preventDefault();
+            login();
         }
-    );
+    });
+
+    panel.addButton({
+        value  : 'Close',
+        section: Y.WidgetStdMod.FOOTER,
+        action : function (e) {
+            e.preventDefault();
+            panel.hide();
+        }
+    });
+
+    function login() {
+        var user = Y.one('#l_username').get('value')
+            , pass = Y.one('#l_password').get('value')
+            ;
+
+        panel.hide();
+
+        if (!user || !pass) { return; }
+
+        Y.Global.Hub.fire('user:login', {
+                id: user
+                , password: pass
+            }
+            , function(err) {
+                if (err) {
+                    Y.Global.Hub.fire('ui:error', err);
+                } else {
+                    Y.Global.Hub.fire('ui:userLoggedIn', { user: user });
+                }
+            }
+        );
+    }
+
+    Y.Global.Hub.on('ui:userLoggedIn', function(obj) {
+        if (obj && obj.user) {
+            Y.log('user: ' + obj.user + ' now logged in!');
+            Y.one('#loggedIn').setStyle('display', 'block');
+            Y.one('#loggedOut').setStyle('display', 'none');
+        } else {
+            Y.one('#loggedOut').setStyle('display', 'block');
+            Y.one('#loggedIn').setStyle('display', 'none');
+        }
+    });
 
     Y.Global.Hub.on('login', function() {
-        bg.setStyle('display', 'block');
-        overlay.show();
+        panel.show();
     });
 
     Y.Global.Hub.on('logout', function() {
         Y.Global.Hub.fire('user:logout', {}, function() { 
-            Y.one('#nav_logout').setStyle('display', 'none');
-            Y.one('#nav_login').setStyle('display', 'block');
-            Y.one('#nav_register').setStyle('display', 'block');
+            Y.Global.Hub.fire('ui:userLoggedIn');
         });
     });
 
-
-
-}, '1.0', { requires: [ 'node', 'overlay' ] } );
+}, '1.0', { requires: [ 'node', 'panel', 'dd-plugin' ] } );
