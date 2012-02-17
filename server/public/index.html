@@ -5,16 +5,11 @@
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
     <link rel="stylesheet" type="text/css" href="/overlay.css">
     <link rel="stylesheet" type="text/css" href="/bs.css">
-    <link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/gallery-2011.03.23-22-20/build/gallery-carousel/assets/skins/sam/gallery-carousel.css">
-    <style>
-            .yui3-carousel-content li { width: 300; }
-    </style>
-
 </head>
 <body class="yui3-skin-sam">
     <div id="backgroundFilter"></div>
     <div id="hd">
-        <h1 align="center">BIDSILENT - Shhhhh!</h1>
+        <h1 align="center">BIDSILENT - Highest Bid Wins!</h1>
     </div>
 
     <div class="yui3-g">
@@ -30,6 +25,9 @@
                         </li>
                     </div>
                     <div id="loggedIn" style="display: none">
+                        <li id="nav_user_actions" class="yui3-menuitem">
+                            <a class="yui3-menuitem-content" id="user_actions"></a>
+                        </li>
                         <li id="nav_logout" class="yui3-menuitem">
                             <a class="yui3-menuitem-content" id="logout">Logout</a>
                         </li>
@@ -39,8 +37,7 @@
         </div>
         <div class="yui3-u-3-5">
             <div id="main" class="content">
-                Welcome to BidSilent - highest bid wins!
-                <div id="current_auction">
+                <div id="auctions">
                 </div>
             </div>
         </div>
@@ -99,36 +96,27 @@
 <script src="http://bidsilent.net:5883/yui3.js"></script>
 <script src="http://bidsilent.net/loadModules.js"></script>
 <script>
-    YUI({
-        gallery: 'gallery-2011.05.18-19-11'
-    }).use('node', 'EventHub', 'cookie', "gallery-carousel", "substitute", function(Y) {
+    YUI({}).use('node', 'EventHub', function(Y) {
         var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
         hub.on('eventHubReady', function() {
             hub.on('modulesLoaded', function() {
                 hub.fire('session:get', function(err, session) {
+                console.log('GOT SESSION: ' );
+                console.log(err);
+                console.log(session);
                     hub.fire('ui:userLoggedIn', { user: session.user });
                 });
-                /*
                 hub.fire('product:get', function(error, prod) {
                     if (error) {
                         hub.fire('ui:error', error);
                     } else {
                         var html = '';
                         prod.forEach(function(item) {
-                            html += '<li>' + item.desc + '</li>';
+                            html += '<div class="auction">' + item.desc + '<p /><button class="bid">Bid Now!</button></div>';
                         });
-                        Y.one('#c_items').set('innerHTML', html);
-                            var carousel = new Y.Carousel({
-                                boundingBox: "#carousel",
-                                contentBox: "#carousel > ol"
-                            });
-                            carousel.render();
-
-//                        Y.one('#product').set('innerHTML', prod.desc);
-//                        console.log(prod);
+                        Y.one('#auctions').set('innerHTML', html);
                     }
                 });
-                */
             });
             Y.use('loadModules');
         });

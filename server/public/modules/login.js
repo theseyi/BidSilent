@@ -46,7 +46,9 @@ YUI().add('login', function(Y) {
             }
             , function(err) {
                 if (err) {
-                    Y.Global.Hub.fire('ui:error', err);
+                console.log('EORR:' );
+                console.log(err);
+                    Y.Global.Hub.fire('ui:error', { message: err } );
                 } else {
                     Y.Global.Hub.fire('ui:userLoggedIn', { user: user });
                 }
@@ -57,6 +59,7 @@ YUI().add('login', function(Y) {
     Y.Global.Hub.on('ui:userLoggedIn', function(obj) {
         if (obj && obj.user) {
             Y.log('user: ' + obj.user + ' now logged in!');
+            Y.one('#user_actions').set('innerHTML', obj.user);
             Y.one('#loggedIn').setStyle('display', 'block');
             Y.one('#loggedOut').setStyle('display', 'none');
         } else {

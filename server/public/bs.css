@@ -14,3 +14,10 @@ body {
     padding: 1em;
 }
 
+.auction {
+    border-bottom: 2px solid black;
+}
+
+.bid {
+    width: 100%;
+}

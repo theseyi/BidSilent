@@ -26,8 +26,8 @@ YUI().add('error', function(Y) {
         }
     });
 
-    Y.Global.Hub.on('ui:error', function(message) {
-        panel.set('bodyContent', message);
+    Y.Global.Hub.on('ui:error', function(obj) {
+        panel.set('bodyContent', obj.message);
         panel.show();
     });
 

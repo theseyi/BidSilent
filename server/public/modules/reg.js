@@ -48,7 +48,7 @@ YUI().add('register', function(Y) {
                 if (error) {
                     Y.log('error registering user: ' + user);
                     Y.log(error);
-                    Y.Global.Hub.fire('ui:error', error);
+                    Y.Global.Hub.fire('ui:error', { message: error });
                 } else {
                     Y.log('successfully created user: ' + user);
                 }

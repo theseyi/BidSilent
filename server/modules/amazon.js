@@ -4,7 +4,7 @@ var parser = require('blindparser')
 
 module.exports = {
     create: function(hub) {
-        hub.on('product:get', function(callback) {
+        hub.on('product:get', function(obj, callback) {
             parser.parseURL(feed, {}, function(err, out) {
                 if (err) {
                     callback(err);
