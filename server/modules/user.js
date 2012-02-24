@@ -6,9 +6,7 @@ module.exports = {
 
         function getUser(obj, callback) {
             if (obj.id && obj.password) {
-                redis.hgetall('user:' + obj.id, function(err, response) {
-                    callback(err, response);
-                });
+                redis.hgetall('user:' + obj.id, callback);
             } else {
                 callback("Missing user id or password");
             }
@@ -34,13 +32,7 @@ module.exports = {
                 if (err) {
                     callback(err);
                 } else if (user.password === obj.password) {
-                    hub.emit('session:add', { user: user.id, 'eventHub:session': obj['eventHub:session'] }, function(err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            redis.hgetall('user:' + user.id, callback);
-                        }
-                    });
+                    hub.emit('session:add', { user: user.id, 'eventHub:session': obj['eventHub:session'] }, callback);
                 } else {
                     callback('Bad password');
                 }
@@ -75,5 +67,17 @@ module.exports = {
                 }
             });
         }, {type: 'unicast'});
+
+        hub.on('user:buyTokens', function(obj, callback) { 
+            hub.emit('session:get', { 'eventHub:session': obj['eventHub:session'] }, function(err, session) {
+                if (err) {
+                    callback(err);
+                } else {
+                    redis.hincrby('user:' + session.user, 'tokens', obj.tokens, callback);
+                }
+            });
+        }, {type: 'unicast'});
+
     }
+
 };

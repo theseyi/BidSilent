@@ -21,3 +21,11 @@ body {
 .bid {
     width: 100%;
 }
+
+.tokens {
+    margin-left: 5px;
+    float: right;
+    border: 2px solid green;
+    background-color: yellow;
+    color: black;
+}

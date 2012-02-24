@@ -48,7 +48,7 @@ YUI().add('login', function(Y) {
                 if (err) {
                     Y.Global.Hub.fire('ui:error', { message: err } );
                 } else {
-                    Y.Global.Hub.fire('ui:userLoggedIn', { user: user, tokens: userObj.tokens });
+                    Y.Global.Hub.fire('ui:userLoggedIn', { user: user });
                 }
             }
         );
@@ -58,9 +58,17 @@ YUI().add('login', function(Y) {
         if (obj && obj.user) {
             Y.log('user: ' + obj.user + ' now logged in!');
             Y.one('#user_name').set('innerHTML', obj.user);
-            Y.one('#user_tokens').set('innerHTML', obj.tokens);
+            Y.one('#user_tokens').set('innerHTML', '?');
             Y.one('#loggedIn').setStyle('display', 'block');
             Y.one('#loggedOut').setStyle('display', 'none');
+
+            Y.Global.Hub.fire('user:getProfile', {}, function(err, profile) {
+                if (err) {
+                    Y.Global.Hub.fire('ui:error', { message: err } );
+                } else {
+                    Y.one('#user_tokens').set('innerHTML', profile.tokens);
+                }
+            });
         } else {
             Y.one('#loggedOut').setStyle('display', 'block');
             Y.one('#loggedIn').setStyle('display', 'none');

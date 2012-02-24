@@ -33,39 +33,24 @@ YUI().add('tokens', function(Y) {
 
     function buyTokens() {
         var tokens = Y.one('#tokens').get('value')
-            , args = {}
         ;
 
         panel.hide();
-/*
         Y.Global.Hub.fire(
-            'user:setProfile'
-            , args
-            , function(err) {
+            'user:buyTokens'
+            , { tokens: tokens }
+            , function(err, tokens) {
                 if (err) {
                     Y.Global.Hub.fire('ui:error', { message: err } );
-                } 
+                } else {
+                    Y.one('#user_tokens').set('innerHTML', tokens);
+                }
             }
         );
-*/
     }
 
     Y.Global.Hub.on('buy_tokens', function() {
-    /*
-        // start spinner
-        Y.Global.Hub.fire('user:getProfile', {}, function(err, profile) {
-            // stop spinner
-            if (err) {
-                Y.Global.Hub.fire('ui:error', { message: err } );
-            } else {
-                Y.one('#u_password').set('value', profile.password);
-                if (profile.address) {
-                    Y.one('#u_address').set('value', profile.address);
-                }
-            }
-        });
-        */
-                panel.show();
+        panel.show();
     });
 
 }, '1.0', { requires: [ 'node', 'panel', 'dd-plugin' ] } );
