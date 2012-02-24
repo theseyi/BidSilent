@@ -20,6 +20,16 @@ YUI().add('loadModules', function(Y) {
                 requires: [ 'node', 'panel', 'dd-plugin' ]
                 , fullpath: '/modules/error.js'
             }
+            , user: {
+                requires: [ 'node', 'panel', 'dd-plugin' ]
+                , fullpath: '/modules/user.js'
+            }
+            , tokens: {
+                requires: [ 'node', 'panel', 'dd-plugin' ]
+                , fullpath: '/modules/tokens.js'
+            }
+
+
         }
 
     // Use them all

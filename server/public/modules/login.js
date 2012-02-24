@@ -44,13 +44,11 @@ YUI().add('login', function(Y) {
                 id: user
                 , password: pass
             }
-            , function(err) {
+            , function(err, userObj) {
                 if (err) {
-                console.log('EORR:' );
-                console.log(err);
                     Y.Global.Hub.fire('ui:error', { message: err } );
                 } else {
-                    Y.Global.Hub.fire('ui:userLoggedIn', { user: user });
+                    Y.Global.Hub.fire('ui:userLoggedIn', { user: user, tokens: userObj.tokens });
                 }
             }
         );
@@ -59,7 +57,8 @@ YUI().add('login', function(Y) {
     Y.Global.Hub.on('ui:userLoggedIn', function(obj) {
         if (obj && obj.user) {
             Y.log('user: ' + obj.user + ' now logged in!');
-            Y.one('#user_actions').set('innerHTML', obj.user);
+            Y.one('#user_name').set('innerHTML', obj.user);
+            Y.one('#user_tokens').set('innerHTML', obj.tokens);
             Y.one('#loggedIn').setStyle('display', 'block');
             Y.one('#loggedOut').setStyle('display', 'none');
         } else {

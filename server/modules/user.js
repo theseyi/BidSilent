@@ -22,6 +22,7 @@ module.exports = {
                     if (user.password) {
                         callback('User ' + obj.id + ' already exists');
                     } else {
+                        obj.tokens = 0;
                         redis.hmset('user:' + obj.id, obj, callback);
                     }
                 }
@@ -33,7 +34,13 @@ module.exports = {
                 if (err) {
                     callback(err);
                 } else if (user.password === obj.password) {
-                    hub.emit('session:add', { user: user.id, 'eventHub:session': obj['eventHub:session'] }, callback);
+                    hub.emit('session:add', { user: user.id, 'eventHub:session': obj['eventHub:session'] }, function(err) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            redis.hgetall('user:' + user.id, callback);
+                        }
+                    });
                 } else {
                     callback('Bad password');
                 }
@@ -44,16 +51,29 @@ module.exports = {
             hub.emit('session:del', { 'eventHub:session': obj['eventHub:session'], key: 'user' }, callback);
         }, {type: 'unicast'});
 
-        hub.on('user:profile', function(obj, callback) { 
+        hub.on('user:setProfile', function(obj, callback) { 
             hub.emit('session:get', { 'eventHub:session': obj['eventHub:session'] }, function(err, session) {
                 if (err) {
                     callback(err);
                 } else {
+                    Object.keys(obj).forEach(function(key) {
+                        if (typeof(obj.key) !== 'string') {
+                            delete obj.key;
+                        }
+                    });
                     redis.hmset('user:' + session.user, obj, callback);
                 }
             });
         }, {type: 'unicast'});
 
-
+        hub.on('user:getProfile', function(obj, callback) { 
+            hub.emit('session:get', { 'eventHub:session': obj['eventHub:session'] }, function(err, session) {
+                if (err) {
+                    callback(err);
+                } else {
+                    redis.hgetall('user:' + session.user, callback);
+                }
+            });
+        }, {type: 'unicast'});
     }
 };
