@@ -1,10 +1,29 @@
 var connect = require('connect')
     , server = connect.createServer(
         connect.logger()
-        /*
         , connect.cookieParser()
-        , connect.session({ secret: 'eventhub', cookie:  { path: '/', httpOnly: false, maxAge: 14400000 } })
-        */
+        , function(req, res, next) {
+            if (req.url !== '/admin') {
+                next();
+            } else {
+                eventHub.emit('user:getProfile', { 'eventHub:session': req.cookies.eventhub }, function(err, profile) {
+                    if (!err) {
+                        if (profile.admin) {
+                            console.log('ADMIN USER');
+                            res.end('HELLO ADMIN USER');
+                        } else {
+                            // 404
+                            res.statusCode = 404;
+                            res.end('u no admin user');
+                        }
+                    } else {
+                        // 404
+                        res.statusCode = 404;
+                        res.end('u no admin user: ' + err);
+                    }
+                });
+            }
+        }
         , connect.static(__dirname + '/public')
     )
     , io = require('socket.io').listen(server)

@@ -24,8 +24,10 @@ body {
 
 .tokens {
     margin-left: 5px;
+    height: 20px;
     float: right;
-    border: 2px solid green;
+    border: 1px solid green;
     background-color: yellow;
     color: black;
 }
+

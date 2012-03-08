@@ -14,21 +14,13 @@ YUI().add('register', function(Y) {
     });
 
     panel.addButton({
-        value  : 'Register',
+        value  : '&nbsp;Register',
         section: Y.WidgetStdMod.FOOTER,
         action : function (e) {
             e.preventDefault();
             register();
-        }
-    });
-
-    panel.addButton({
-        value  : 'Close',
-        section: Y.WidgetStdMod.FOOTER,
-        action : function (e) {
-            e.preventDefault();
-            panel.hide();
-        }
+        },
+        classNames: 'icon-pencil'
     });
 
     function register() {

@@ -14,21 +14,13 @@ YUI().add('user', function(Y) {
     });
 
     panel.addButton({
-        value  : 'Close',
-        section: Y.WidgetStdMod.FOOTER,
-        action : function (e) {
-            e.preventDefault();
-            panel.hide();
-        }
-    });
-
-    panel.addButton({
-        value  : 'Save',
+        value  : '&nbsp;Save',
         section: Y.WidgetStdMod.FOOTER,
         action : function (e) {
             e.preventDefault();
             updateProfile();
-        }
+        },
+        classNames: [ 'icon-ok' ] 
     });
 
     function updateProfile() {
@@ -58,7 +50,7 @@ YUI().add('user', function(Y) {
         );
     }
 
-    Y.Global.Hub.on('user_actions', function() {
+    Y.Global.Hub.on('user_name', function() {
         // start spinner
         Y.Global.Hub.fire('user:getProfile', {}, function(err, profile) {
             // stop spinner

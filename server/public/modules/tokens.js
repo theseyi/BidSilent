@@ -14,21 +14,13 @@ YUI().add('tokens', function(Y) {
     });
 
     panel.addButton({
-        value  : 'Cancel',
-        section: Y.WidgetStdMod.FOOTER,
-        action : function (e) {
-            e.preventDefault();
-            panel.hide();
-        }
-    });
-
-    panel.addButton({
-        value  : 'Buy',
+        value  : '&nbsp;Buy',
         section: Y.WidgetStdMod.FOOTER,
         action : function (e) {
             e.preventDefault();
             buyTokens();
-        }
+        },
+        classNames: 'icon-plus'
     });
 
     function buyTokens() {

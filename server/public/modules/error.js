@@ -17,15 +17,6 @@ YUI().add('error', function(Y) {
         ]
     });
 
-    panel.addButton({
-        value  : 'Close',
-        section: Y.WidgetStdMod.FOOTER,
-        action : function (e) {
-            e.preventDefault();
-            panel.hide();
-        }
-    });
-
     Y.Global.Hub.on('ui:error', function(obj) {
         panel.set('bodyContent', obj.message);
         panel.show();

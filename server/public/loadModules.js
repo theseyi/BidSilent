@@ -28,8 +28,12 @@ YUI().add('loadModules', function(Y) {
                 requires: [ 'node', 'panel', 'dd-plugin' ]
                 , fullpath: '/modules/tokens.js'
             }
-
-
+/*
+            , admin: {
+                requires: [ 'node', 'cookie' ]
+                , fullpath: '/modules/admin.js'
+            }
+*/
         }
 
     // Use them all

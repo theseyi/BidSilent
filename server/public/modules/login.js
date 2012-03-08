@@ -14,21 +14,13 @@ YUI().add('login', function(Y) {
     });
 
     panel.addButton({
-        value  : 'Login',
+        value  : '&nbsp;Login',
         section: Y.WidgetStdMod.FOOTER,
         action : function (e) {
             e.preventDefault();
             login();
-        }
-    });
-
-    panel.addButton({
-        value  : 'Close',
-        section: Y.WidgetStdMod.FOOTER,
-        action : function (e) {
-            e.preventDefault();
-            panel.hide();
-        }
+        },
+        classNames: [ 'icon-signin' ]
     });
 
     function login() {
@@ -67,11 +59,15 @@ YUI().add('login', function(Y) {
                     Y.Global.Hub.fire('ui:error', { message: err } );
                 } else {
                     Y.one('#user_tokens').set('innerHTML', profile.tokens);
+                    if (profile.admin) {
+                        Y.one('#adminIn').setStyle('display', 'block');
+                    }
                 }
             });
         } else {
             Y.one('#loggedOut').setStyle('display', 'block');
             Y.one('#loggedIn').setStyle('display', 'none');
+            Y.one('#adminIn').setStyle('display', 'none');
         }
     });
 

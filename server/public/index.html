@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
     <link rel="stylesheet" type="text/css" href="/overlay.css">
     <link rel="stylesheet" type="text/css" href="/bs.css">
+    <link rel="stylesheet" type="text/css" href="/FortAwesome-Font-Awesome-657fdf4/css/font-awesome.css">
 </head>
 <body class="yui3-skin-sam">
     <div id="backgroundFilter"></div>
@@ -18,22 +19,32 @@
                 <ul>
                     <div id="loggedOut" style="display: none">
                         <li id="nav_register" class="yui3-menuitem">
-                            <a class="yui3-menuitem-content" id="register">Register</a>
+                            <a class="yui3-menuitem-content" id="register"><i class="icon-pencil">&nbsp;</i>Register</a>
                         </li>
                         <li id="nav_login" class="yui3-menuitem">
-                            <a class="yui3-menuitem-content" id="login">Login</a>
+                            <a class="yui3-menuitem-content" id="login"><i class="icon-signin">&nbsp;</i>Login</a>
                         </li>
                     </div>
                     <div id="loggedIn" style="display: none">
                         <li id="nav_user_actions" class="yui3-menuitem">
-                            <a class="yui3-menuitem-content" id="user_actions"><span id="user_name"></span>&nbsp;<span class="tokens" id="user_tokens"></span></a>
+                            <a class="yui3-menuitem-content" id="user_actions">
+                                <i class="icon-user">&nbsp;</i>
+                                <span id="user_name"></span>
+                                &nbsp;
+                                <span class="tokens" id="user_tokens"></span>
+                            </a>
                         </li>
                         <li id="nav_buy_tokens" class="yui3-menuitem">
-                            <a class="yui3-menuitem-content" id="buy_tokens">Buy Tokens</a>
+                            <a class="yui3-menuitem-content" id="buy_tokens"><i class="icon-signal">&nbsp;</i>Buy Tokens</a>
                         </li>
                         <li id="nav_logout" class="yui3-menuitem">
-                            <a class="yui3-menuitem-content" id="logout">Logout</a>
+                            <a class="yui3-menuitem-content" id="logout"><i class="icon-signout">&nbsp;</i>Logout</a>
                         </li>
+                        <div id="adminIn" style="display: none">
+                            <li id="nav_admin" class="yui3-menuitem">
+                                <a class="yui3-menuitem-content" href="/admin"><i class="icon-book">&nbsp;</i>ADMIN</a>
+                            </li>
+                        </div>
                     </div>
                 </ul>
             </div>
