@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>BidSilent! Admin</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
+    <style>
+        body {
+            margin: auto; /* center in viewport */
+            width: 960px;
+        }
+
+        #hd, #ft {
+            height: 40px;
+            margin-top: 40px;
+        }
+    </style>
+
+</head>
+<body class="yui3-skin-sam">
+    <div id="hd">
+        <h1 align="center">BIDSILENT - Administrator</h1>
+    </div>
+
+    <div id="tabs">
+        <ul>
+            <li><a href="#newauction">New Auction</a></li>
+            <li><a href="#currentauctions">Current Auctions</a></li>
+        </ul>
+        <div>
+            <div id="newauction">
+                <p>foo content</p>
+            </div>
+            <div id="currentauctions">
+                <p>bar content</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="ft">
+        <h1 align="center">Code at <a href="https://github.com/zzo/BidSilent">https://github.com/zzo/BidSilent</a></h1>
+    </div>
+
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script src="http://bidsilent.net:5883/socket.io/socket.io.js"></script>
+<script src="http://bidsilent.net:5883/yui3.js"></script>
+<script src="http://bidsilent.net/loadModules.js"></script>
+
+<script>
+    YUI({}).use('node', 'tabview', 'EventHub', function(Y) {
+        var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
+        hub.on('eventHubReady', function() {
+//            hub.on('modulesLoaded', function() {
+                hub.fire('session:get', function(err, session) {
+                    var tabview = new Y.TabView({ srcNode:'#tabs' });
+                    tabview.render();
+                });
+ //           });
+ /*
+            Y.use('loadModules', function(Y) {
+                var mods = {
+                };
+
+                Y.LoadModules(mods);
+            });
+*/
+        });
+    });
+</script>
+</body>
+</html>
+

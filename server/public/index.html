@@ -172,7 +172,36 @@
                     }
                 });
             });
-            Y.use('loadModules');
+            Y.use('loadModules', function(Y) {
+                var mods = {
+                    nav: {
+                        requires: [ 'node-menunav' ]
+                        , fullpath: '/modules/nav.js'
+                    }
+                    , login: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/login.js'
+                    }
+                    , register: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/reg.js'
+                    }
+                    , error: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/error.js'
+                    }
+                    , user: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/user.js'
+                    }
+                    , tokens: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/tokens.js'
+                    }
+                };
+
+                Y.LoadModules(mods);
+            });
         });
     });
 </script>
