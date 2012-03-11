@@ -1,5 +1,11 @@
 var parser = require('blindparser')
     , feed = 'http://www.amazon.com/gp/rss/bestsellers/electronics/ref=zg_bs_electronics_rsslink'
+    , OperationHelper = require('apac').OperationHelper
+    , opHelper = new OperationHelper({
+        awsId:     '14RF2EXWMNA1MVHX6ZG2'
+        , awsSecret: 'ARi+PTh0l02ApSQCg3MbScYhEQ5u3dtexOBWc4zm'
+        , assocId:   '7791-5371-3211'
+    })
     ;
 
 module.exports = {
@@ -14,6 +20,13 @@ module.exports = {
                     callback('Cannot get item list');
                 }
             });
+        });
+
+        hub.on('amazon:getASIN', function(obj, callback) {
+            opHelper.execute('ItemLookup', {
+                'ItemId': obj.asin
+                , 'ResponseGroup': 'Large'
+            }, callback);
         });
     }
 };

@@ -1,8 +1,9 @@
 <html>
 <head>
     <title>BidSilent! Admin</title>
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssgrids/grids-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?3.4.1/build/cssreset/reset-min.css&3.4.1/build/cssfonts/fonts-min.css&3.4.1/build/cssgrids/grids-min.css">
+    <link rel="stylesheet" type="text/css" href="/FortAwesome-Font-Awesome-657fdf4/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/timepicker.css">
     <style>
         body {
             margin: auto; /* center in viewport */
@@ -28,7 +29,41 @@
         </ul>
         <div>
             <div id="newauction">
-                <p>foo content</p>
+                <form id="newAuctionForm">
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>
+                            <label for="asin"><i class="icon-book"></i>&nbsp;Amazon ASIN&nbsp;</label>
+                                </td>
+                                <td>
+                            <input type="text" id="asin">&nbsp;<span id="itemName"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                            <label for="tokens"><i class="icon-flag"></i>&nbsp;Tokens&nbsp;</label>
+                                </td>
+                                <td>
+                            <input type="text" id="tokens">
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <p>
+                            <label for="newAuctionDates"><i class="icon-map-marker"></i>Auction Interval</label>
+                            <div id="newAuctionDates"></div>
+                        </p>
+                        <p>
+                            <label for="newAuctionStartTime">Start Time&nbsp;</label>
+                            <input type="text" name="startTime" value="" id="newAuctionStartTime">
+                        </p>
+                        <p>
+                            <label for="newAuctionStopTime">Stop Time&nbsp;</label>
+                            <input type="text" name="stopTime" value="" id="newAuctionStopTime">
+                        </p>
+                    </fieldset>
+                </form>
             </div>
             <div id="currentauctions">
                 <p>bar content</p>
@@ -46,23 +81,32 @@
 <script src="http://bidsilent.net/loadModules.js"></script>
 
 <script>
-    YUI({}).use('node', 'tabview', 'EventHub', function(Y) {
+    YUI({
+    }).use('node', 'tabview', 'EventHub', function(Y) {
+        new Y.TabView({ srcNode:'#tabs' }).render();
         var hub = new Y.EventHub(io, 'http://bidsilent.net:5883');
         hub.on('eventHubReady', function() {
-//            hub.on('modulesLoaded', function() {
+            hub.on('modulesLoaded', function() {
                 hub.fire('session:get', function(err, session) {
-                    var tabview = new Y.TabView({ srcNode:'#tabs' });
-                    tabview.render();
                 });
- //           });
- /*
+            });
+
             Y.use('loadModules', function(Y) {
                 var mods = {
+                    newAuction: {
+                        requires: [ 'calendar', 'datatype-date', 'datatype-date-math' ]
+                        , fullpath: '/modules/admin/newAuction.js'
+                    }
+                    , error: {
+                        requires: [ 'node', 'panel', 'dd-plugin' ]
+                        , fullpath: '/modules/error.js'
+                    }
+
+
                 };
 
                 Y.LoadModules(mods);
             });
-*/
         });
     });
 </script>
