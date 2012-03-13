@@ -1,4 +1,5 @@
 var parser = require('blindparser')
+    , eventHub = require('EventHub/clients/server/eventClient.js').getClientHub('http://localhost:5883?token=ehrox')
     , feed = 'http://www.amazon.com/gp/rss/bestsellers/electronics/ref=zg_bs_electronics_rsslink'
     , OperationHelper = require('apac').OperationHelper
     , opHelper = new OperationHelper({
@@ -27,6 +28,13 @@ module.exports = {
                 'ItemId': obj.asin
                 , 'ResponseGroup': 'Large'
             }, callback);
-        });
+        }, {type: 'unicast'});
     }
 };
+
+// get ref to hub & then load server-side modules
+eventHub.on('eventHubReady', function() {
+    module.exports.create(eventHub);
+});
+
+

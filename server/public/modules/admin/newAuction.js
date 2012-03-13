@@ -18,7 +18,6 @@ YUI({
 
                     Y.one('#itemName').set('innerHTML', '<a href="' + href + '" target="_blank">' + item.ItemAttributes.Title + ' ' + price.FormattedPrice + '</a>');
                     Y.one('#tokens').set('value', tokens);
-                    console.log(asin);
                 }
             });
         }
@@ -47,6 +46,20 @@ YUI({
             format: "%B %Y"
           });
         return output;
+    });
+
+    Y.one('#newAuctionCreate').on('click', function(e) {
+        
+        Y.Global.Hub.fire('auction:create'
+            , { asin: asin.get('value'), tokens: Y.one('#tokens').get('value'), dates: calendar.get('selectedDates') }
+            , function(err, auction) {
+                if (err) {
+                    Y.Global.Hub.fire('ui:error', { message: err } );
+                } else {
+                    Y.Global.Hub.fire('ui:message', { message: 'Auction created!' } );
+                }
+            }
+        );
     });
 
 }, '1.0', { requires: [ 'calendar', 'datatype-date', 'datatype-date-math' ] } );

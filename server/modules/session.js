@@ -1,4 +1,5 @@
 var redis = require('redis').createClient()
+    , eventHub = require('EventHub/clients/server/eventClient.js').getClientHub('http://localhost:5883?token=ehrox')
     ;
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
             if (callback) {
                 callback();
             }
-        });
+        }, {type: 'unicast'});
 
         hub.on('session:get', function(obj, callback) {
             var session = obj['eventHub:session'];
@@ -21,7 +22,7 @@ module.exports = {
             } else {
 		        callback('No session');
             }
-        });
+        }, {type: 'unicast'});
 
         hub.on('session:add', function(obj, callback) { 
             var session = obj['eventHub:session'];
@@ -46,3 +47,9 @@ module.exports = {
 
     }
 };
+
+// get ref to hub & then load server-side modules
+eventHub.on('eventHubReady', function() {
+    module.exports.create(eventHub);
+});
+

@@ -1,4 +1,5 @@
 var redis = require('redis').createClient()
+    , eventHub = require('EventHub/clients/server/eventClient.js').getClientHub('http://localhost:5883?token=ehrox')
     ;
 
 module.exports = {
@@ -21,6 +22,7 @@ module.exports = {
                         callback('User ' + obj.id + ' already exists');
                     } else {
                         obj.tokens = 0;
+                        delete obj['eventHub:session'];
                         redis.hmset('user:' + obj.id, obj, callback);
                     }
                 }
@@ -48,6 +50,7 @@ module.exports = {
                 if (err) {
                     callback(err);
                 } else {
+                    delete obj['eventHub:session'];
                     Object.keys(obj).forEach(function(key) {
                         if (typeof(obj.key) !== 'string') {
                             delete obj.key;
@@ -58,7 +61,7 @@ module.exports = {
             });
         }, {type: 'unicast'});
 
-        hub.on('user:getProfile', function(obj, callback) { 
+        hub.on('user:getProfile', function(obj, callback) {
             hub.emit('session:get', { 'eventHub:session': obj['eventHub:session'] }, function(err, session) {
                 if (err) {
                     callback(err);
@@ -81,3 +84,9 @@ module.exports = {
     }
 
 };
+
+// get ref to hub & then load server-side modules
+eventHub.on('eventHubReady', function() {
+    module.exports.create(eventHub);
+});
+
