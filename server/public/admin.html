@@ -118,8 +118,10 @@
                         requires: [ 'node', 'panel', 'dd-plugin' ]
                         , fullpath: '/modules/error.js'
                     }
-
-
+                    , currentAuctions: {
+                        requires: [ 'node', 'datatable' ]
+                        , fullpath: '/modules/admin/currentAuctions.js'
+                    }
                 };
 
                 Y.LoadModules(mods);

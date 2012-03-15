@@ -50,6 +50,7 @@ YUI({
 
     Y.one('#newAuctionCreate').on('click', function(e) {
         
+        console.log('FIRE AUCTION CREATE');
         Y.Global.Hub.fire('auction:create'
             , { asin: asin.get('value'), tokens: Y.one('#tokens').get('value'), dates: calendar.get('selectedDates') }
             , function(err, auction) {
