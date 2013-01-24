@@ -9,7 +9,8 @@
   "author": "Mark Ethan Trostler <mark@zzo.com>",
   "preferGlobal": true,
   "scripts": {
-    "start": "node ./server/server.js"
+    "start": "sudo node ./modctl.js start all",
+    "stop": "sudo node ./modctl.js stop all"
   },
   "engines": {
     "node": ">=0.4"
@@ -25,6 +26,7 @@
     "socket.io": "",
     "node-uuid": "",
     "blindparser": "",
+    "apac": "",
     "connect": "~1.7"
   },
   "devDependencies": {}

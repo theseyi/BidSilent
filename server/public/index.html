@@ -164,7 +164,11 @@
         hub.on('eventHubReady', function() {
             hub.on('modulesLoaded', function() {
                 hub.fire('session:get', function(err, session) {
-                    hub.fire('ui:userLoggedIn', { user: session.user });
+		    if (session && session.user) {
+                        hub.fire('ui:userLoggedIn', { user: session.user });
+		    } else {
+                        hub.fire('ui:userLoggedIn');
+		    }
                 });
                 hub.fire('product:get', function(error, prod) {
                     if (error) {

@@ -20,7 +20,7 @@ module.exports = {
             if (session) {
                 redis.hgetall('session:' + session, callback);
             } else {
-		        callback('No session');
+		callback('No session');
             }
         }, {type: 'unicast'});
 

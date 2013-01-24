@@ -1,3 +1,12 @@
 Source code for play event-based webapp at bidsilent.net
 
 A playground for event-based webapps
+
+To use:
+
+1. Clone this repo
+2. Install & Start Redis (redis-server)
+3. Start EventHub (% npm start EventHub)
+4. Start app (% sudo node ./modctl.js start all)  (sudo to listen on port 80)
+5. Point browser to http://localhost
+6. Profit!
