@@ -25,7 +25,6 @@ var connect = require('connect')
             }
         }
     )
-    , io = require('socket.io').listen(server)
     , port = 80
     , fs = require('fs')
     , path = require('path')
